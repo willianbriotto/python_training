@@ -1,2 +1,2 @@
-python_treanning
+python_training
 ================
