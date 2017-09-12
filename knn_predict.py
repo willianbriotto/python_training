@@ -3,6 +3,7 @@
 '''
 import numpy as np
 import random
+from scipy.stats as ss
 
 def distance(p1, p2):
   return np.sqrt(np.sum(np.power(p2 - p1, 2)))
@@ -43,9 +44,12 @@ def knn_predict(p, points, outcomes, k=5):
   ind = find_nearest_neighborgs(p, points, k)
   return majority_vote(outcomes[ind])
     
-    
-outcomes = np.array([0,0,0,0,1,1,1,1,1])
-points = np.array([[1,1], [1,2], [1,3], [2,1], [2,2], [2,3], [3,1], [3,2], [3,3]])
+def generate_synth_data(n=50):
+    points = np.concatenate((ss.norm(0, 1).rvs((n, 2)), ss.norm(1,1).rvs((n,2))), axis=0)
+    outcomes = np.concatenate((np.repeat(0,n), np.repear(1,n)))
+    return (points, outcomes)
+
+points, outcomes = generate_synth_data(20)
 p = np.array([2.5, 2.7])
 
 print(knn_predict(p, points, outcomes, k=5))
